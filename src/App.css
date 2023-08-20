@@ -77,3 +77,15 @@ a.btn.btn-sm.btn-primary {
 .navbar-light .navbar-brand{
   color: #157347;
 }
+
+@media only screen and (max-width: 991px){
+  .navbar-collapse {
+    flex-basis: 100%;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 20px;
+  }  
+}
