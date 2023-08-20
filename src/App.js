@@ -5,7 +5,6 @@ import News from './Components/News'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Footer from './Components/Footer';
 
-
 export default class App extends Component {
 
   pageSize = 6;
