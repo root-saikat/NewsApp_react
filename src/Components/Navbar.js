@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default class Navbar extends Component {
     render() {
-        let {navTitle,navItemOne,navItemTwo} = this.props;
+        let {navTitle} = this.props;
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container">

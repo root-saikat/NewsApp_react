@@ -14,52 +14,55 @@ export default class News extends Component {
         super(props);
         this.state ={
             articles: [],
-            page: 1,
             loading: true,
+            page: 1,
             totalResults: 0
         }
         document.title = `${this.capitalizeFirstLetter(this.props.category)} - Top-News`;
     }
 
     async updateNews(){
-        let url= `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=1&pageSize=${this.props.pageSize}`;
-        this.setState({loading: true});
+        this.setState({page: this.state.page +1})
+        let url= `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+        this.setState({ loading: true });
         let data = await fetch(url);
         let parsedData = await data.json()
         this.setState({
             articles: parsedData.articles,
-            totalResults: parsedData.totalResults, 
-            loading: false})  
+            totalResults: parsedData.totalResults,
+            loading: false, 
+        })
     }
 
     async componentDidMount() { 
         this.updateNews();
     }
 
-    fetchMoreData = async() =>{
-        this.setState({page: this.state.page +1});
-        let url= `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=1&pageSize=${this.props.pageSize}`;
+    fetchMoreData = async () => {  
+        this.setState({page: this.state.page +1})
+        const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
         let data = await fetch(url);
         let parsedData = await data.json()
         this.setState({
             articles: this.state.articles.concat(parsedData.articles),
             totalResults: parsedData.totalResults
-        })  
-    }
+        })
+    };
 
 
 
     render() {
         return (
+        <>
         <div className="container my-5">
             <h3 className='text-center'>Top-News - {this.capitalizeFirstLetter(this.props.category)} Top Headlines</h3>
             {this.state.loading && <Spinner/>}
             <InfiniteScroll
-            dataLength={this.state.articles.length}
-            next={this.fetchMoreData}
-            hasMore={this.state.articles.length !== this.state.totalResults}
-            loader={<Spinner/>}
-            >
+                    dataLength={this.state.articles.length}
+                    next={this.fetchMoreData}
+                    hasMore={this.state.articles.length !== this.state.totalResults}
+                    loader={<Spinner/>}
+                > 
                 <div className="container">
                     <div className="row mt-5">
                         {this.state.articles.map((element)=>{
@@ -71,6 +74,7 @@ export default class News extends Component {
                 </div>
             </InfiniteScroll>
         </div>
+        </>
         )
     }    
 }
